@@ -49,38 +49,25 @@
 </div>   <!-- end class= 'container' -->
 
 <script>
-  let app = Vue.createApp({
-    data() {
-      return {
-        tickets: [],
-        filteredTickets: [],
-        isLoading: true,
-      };
-    },
-    created() {
-      this.getData();
-    },
-    methods: {
-      async getData() {
-        try {
-          const response = await fetch('tickets1.json');
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          this.tickets = await response.json();
-
-          // Filter the tickets after fetching
-          this.filteredTickets = this.tickets.filter(ticket => ticket.actual_speed - ticket.posted_speed >= 25);
-
-          this.isLoading = false;
-        } catch (error) {
-          console.error('Error fetching data:', error);
-          this.isLoading = false;
-        }
+    let app = Vue.createApp({
+      data() {
+        return {
+          tickets: [],
+          filtered_tickets: [],
+        };
       },
-    },
-  });
-
-  app.mount('#ticketApp');
+      created() {
+        this.getData();
+      },
+      methods: {
+        async getData() {
+            const response = await fetch('tickets1.json');
+            this.tickets = await response.json();
+            this.filtered_tickets = this.tickets.filter( (item) => item.actual_speed - item.posted_speed >= 25);
+        },
+      },
+    });
+  
+    app.mount('#ticketApp');
 </script>
 </body></html>
